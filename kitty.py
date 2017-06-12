@@ -17,7 +17,8 @@ class KittyBox():
         self.pStartX = 1
         self.pStartY = 1
         ##  Set kitty terminal size to just that of kitty box ##
-        if size:
+        self.resize = resize
+        if resize:
             self.rows = size[0]
             self.columns = size[1]
             print "\x1b[8;17;26t"
@@ -253,7 +254,8 @@ class KittyBox():
             cuteness = None
         screen.clear()
         ##  Return screen to previous sizesize ##
-        print("\x1b[8;%s;%st" % (self.rows, self.columns))
+        if self.resize:
+            print("\x1b[8;%s;%st" % (self.rows, self.columns))
         print "Kitty naptime!  Please come again!!"
 
 ## Input the kitty parameters ##
