@@ -155,7 +155,7 @@ class Spreadsheeter():
         elif sheet == 'data-site_reg_by_day':
             mylog.debug('Found sheet requiring blank data, %s' % sheet)
             row_id = 1
-            for dte in self.date_range(date(2017, 08, 08)):
+            for dte in self.date_range(date(2017, 8, 8)):
                 blank_row_list = [' ' + str(dte), 0]
                 blank_rows[str(row_id)] = blank_row_list
                 row_id += 1
