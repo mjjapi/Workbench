@@ -44,6 +44,9 @@ class Spreadsheeter():
         return True
 
     def integer_test(self, value):
+        """ Test if the value given is an integer or not.  When I wrote this I
+        was not aware that there was a python function that does this.  I left
+        it because, hey, free dummy!"""
         try:
             value = int(value)
             return True
@@ -51,6 +54,7 @@ class Spreadsheeter():
             return False
 
     def float_test(self, value):
+        """ Test if the value given is a float or not"""
         try:
             value = float(value)
             return True
@@ -165,7 +169,7 @@ class Spreadsheeter():
 
     def extra_row(self, sheet):
         """ Some sheets have data that is not in the database and needs to be
-        added individually """
+        added individually outside of the blank rows generated"""
         if sheet == 'data-site_reg_by_day':
             extra_row = [' 2017-05-05', 15]
         elif sheet == 'data-reg_by_channel':
@@ -177,6 +181,7 @@ class Spreadsheeter():
         return extra_row
 
     def arsenal_v_everton(self, sheet):
+        """ Add these extra-database rows to their respective sheets"""
         if sheet == 'data-site_reg_by_day':
             a_v_e_row = ['Win a Trip to Arsenal v Everton', 10593]
         elif sheet == 'data-reg_by_channel' or sheet == 'data-imp_by_channel':
@@ -188,6 +193,7 @@ class Spreadsheeter():
         return a_v_e_row
 
     def arsenal_v_man(self, sheet):
+        """ Add these extra-database rows to their respective sheets"""
         if sheet == 'data-site_reg_by_day':
             a_v_m_row = ['Win a Trip to Arsenal v Man Utd', 218]
         elif sheet == 'data-reg_by_channel' or sheet == 'data-imp_by_channel':
@@ -199,6 +205,7 @@ class Spreadsheeter():
         return a_v_m_row
 
     def fcb_camp(self, sheet):
+        """ Add these extra-database rows to their respective sheets"""
         if sheet == 'data-site_reg_by_day':
             fcb_row = ['FCB Heilongjiang Camp - Nominate Yourself', 23469]
         elif sheet == 'data-reg_by_channel' or sheet == 'data-imp_by_channel':
