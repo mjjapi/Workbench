@@ -128,7 +128,7 @@ class Spreadsheeter():
     def blank_data(self, sheet):
         """ This will generate blank rows for a range of dates to be inserted
         into whichever sheet requires it.  This is because sometimes the DB has
-        no entries for a particular date, and so oes not supply any data, which
+        no entries for a particular date, and so does not supply any data, which
         throws off the pivot tables in the workbook """
         blank_rows = {}
         if sheet == 'data-cat_by_channel':
@@ -150,6 +150,13 @@ class Spreadsheeter():
             row_id = 1
             for dte in self.date_range(date(2017, 07, 26)):
                 blank_row_list = [' ' + str(dte), 'Unassociated', 0]
+                blank_rows[str(row_id)] = blank_row_list
+                row_id += 1
+        elif sheet == 'data-site_reg_by_day':
+            mylog.debug('Found sheet requiring blank data, %s' % sheet)
+            row_id = 1
+            for dte in self.date_range(date(2017, 08, 08)):
+                blank_row_list = [' ' + str(dte), 0]
                 blank_rows[str(row_id)] = blank_row_list
                 row_id += 1
         else:
