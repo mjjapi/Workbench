@@ -163,6 +163,13 @@ class Spreadsheeter():
                 blank_row_list = [' ' + str(dte), 0]
                 blank_rows[str(row_id)] = blank_row_list
                 row_id += 1
+        elif sheet == 'data-imp_by_channel':
+            mylog.debug('Found sheet requiring blank data, %s' % sheet)
+            row_id = 1
+            for dte in self.date_range(date(2017, 8, 29)):
+                blank_row_list = [' ' + str(dte), 'Unassociated', 'Unassociated', 0]
+                blank_rows[str(row_id)] = blank_row_list
+                row_id += 1
         else:
             blank_rows = None
         return blank_rows
