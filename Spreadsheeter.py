@@ -113,9 +113,10 @@ class Spreadsheeter():
             mylog.debug('Wrote row %s' % new_row)
         blank_rows = self.blank_data(sheet_name)
         if blank_rows:
-            for key, row in sorted(blank_rows.iteritems()):
-                mylog.debug('Adding blank row %s to %s' % (row, sheet_name))
-                sheet.append(row)
+            for key in range(1, len(blank_rows)+1):
+                mylog.debug('Key of added row is %s' % key)
+                mylog.debug('Adding blank row %s to %s' % (blank_rows[str(key)], sheet_name))
+                sheet.append(blank_rows[str(key)])
         mylog.debug('Completed writing data from sheet to %s in %s' % (sheet_name, self.workbook_name))
         return True
 
