@@ -75,6 +75,7 @@ class Spreadsheeter():
         sheet = self.workbook.get_sheet_by_name(sheet_name)
         sheet_header = self.find_header(sheet_name)
         sheet.append(sheet_header)
+        mylog.debug('Added header %s to sheet %s' % (sheet_header, sheet_name))
 
         ## Some sheets have extra rows that need to be added ##
         ave_row = self.arsenal_v_everton(sheet_name)
@@ -92,12 +93,6 @@ class Spreadsheeter():
         extra_row = self.extra_row(sheet_name)
         if extra_row:
             sheet.append(extra_row)
-        blank_rows = self.blank_data(sheet_name)
-        if blank_rows:
-            for key, row in blank_rows.iteritems():
-                mylog.debug('Adding blank row %s to %s' % (row, sheet_name))
-                sheet.append(row)
-        mylog.debug('Added header %s to sheet %s' % (sheet_header, sheet_name))
         for row in dataframe_to_rows(csv_data, index=False, header=header):
             ## For some reason some rows come out with the integers as strings ##
             ## This will erase such nonsense ##
@@ -116,6 +111,11 @@ class Spreadsheeter():
                 new_row.append(value)
             sheet.append(new_row)
             mylog.debug('Wrote row %s' % new_row)
+        blank_rows = self.blank_data(sheet_name)
+        if blank_rows:
+            for key, row in sorted(blank_rows.iteritems()):
+                mylog.debug('Adding blank row %s to %s' % (row, sheet_name))
+                sheet.append(row)
         mylog.debug('Completed writing data from sheet to %s in %s' % (sheet_name, self.workbook_name))
         return True
 
@@ -161,13 +161,6 @@ class Spreadsheeter():
             row_id = 1
             for dte in self.date_range(date(2017, 8, 8)):
                 blank_row_list = [' ' + str(dte), 0]
-                blank_rows[str(row_id)] = blank_row_list
-                row_id += 1
-        elif sheet == 'data-imp_by_channel':
-            mylog.debug('Found sheet requiring blank data, %s' % sheet)
-            row_id = 1
-            for dte in self.date_range(date(2017, 8, 29)):
-                blank_row_list = [' ' + str(dte), 'Unassociated', 'Unassociated', 0]
                 blank_rows[str(row_id)] = blank_row_list
                 row_id += 1
         else:
