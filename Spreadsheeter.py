@@ -44,9 +44,6 @@ class Spreadsheeter():
         return True
 
     def integer_test(self, value):
-        """ Test if the value given is an integer or not.  When I wrote this I
-        was not aware that there was a python function that does this.  I left
-        it because, hey, free dummy!"""
         try:
             value = int(value)
             return True
@@ -54,7 +51,6 @@ class Spreadsheeter():
             return False
 
     def float_test(self, value):
-        """ Test if the value given is a float or not"""
         try:
             value = float(value)
             return True
@@ -93,6 +89,17 @@ class Spreadsheeter():
         extra_row = self.extra_row(sheet_name)
         if extra_row:
             sheet.append(extra_row)
+        blank_rows = self.blank_data(sheet_name)
+     #   if blank_rows:
+     #       for key, row in blank_rows.iteritems():
+     #           mylog.debug('Adding blank row %s to %s' % (row, sheet_name))
+     #           sheet.append(row)
+        if blank_rows:
+            for key in range(1, len(blank_rows)+1):
+                mylog.debug('Key of added row is %s' % key)
+                mylog.debug('Adding blank row %s to %s' % (blank_rows[str(key)], sheet_name))
+                sheet.append(blank_rows[str(key)])
+
         for row in dataframe_to_rows(csv_data, index=False, header=header):
             ## For some reason some rows come out with the integers as strings ##
             ## This will erase such nonsense ##
@@ -111,12 +118,6 @@ class Spreadsheeter():
                 new_row.append(value)
             sheet.append(new_row)
             mylog.debug('Wrote row %s' % new_row)
-        blank_rows = self.blank_data(sheet_name)
-        if blank_rows:
-            for key in range(1, len(blank_rows)+1):
-                mylog.debug('Key of added row is %s' % key)
-                mylog.debug('Adding blank row %s to %s' % (blank_rows[str(key)], sheet_name))
-                sheet.append(blank_rows[str(key)])
         mylog.debug('Completed writing data from sheet to %s in %s' % (sheet_name, self.workbook_name))
         return True
 
@@ -139,21 +140,21 @@ class Spreadsheeter():
         if sheet == 'data-cat_by_channel':
             mylog.debug('Found sheet requiring blank data, %s' % sheet)
             row_id = 1
-            for dte in self.date_range(date(2017, 07, 21)):
+            for dte in self.date_range(date(2017, 7, 21)):
                 blank_row_list = [' ' + str(dte), 'Unassociated', 'Unassociated', 'Unassociated', 0]
                 blank_rows[str(row_id)] = blank_row_list
                 row_id += 1
         elif sheet == 'data-reg_by_channel':
             mylog.debug('Found sheet requiring blank data, %s' % sheet)
             row_id = 1
-            for dte in self.date_range(date(2017, 07, 21)):
+            for dte in self.date_range(date(2017, 7, 21)):
                 blank_row_list = [' ' + str(dte), 'Unassociated', 'Unassociated', 0]
                 blank_rows[str(row_id)] = blank_row_list
                 row_id += 1
         elif sheet == 'data-reg_by_category':
             mylog.debug('Found sheet requiring blank data, %s' % sheet)
             row_id = 1
-            for dte in self.date_range(date(2017, 07, 26)):
+            for dte in self.date_range(date(2017, 7, 26)):
                 blank_row_list = [' ' + str(dte), 'Unassociated', 0]
                 blank_rows[str(row_id)] = blank_row_list
                 row_id += 1
@@ -164,13 +165,20 @@ class Spreadsheeter():
                 blank_row_list = [' ' + str(dte), 0]
                 blank_rows[str(row_id)] = blank_row_list
                 row_id += 1
+        elif sheet == 'data-imp_by_channel':
+            mylog.debug('Found sheet requiring blank data, %s' % sheet)
+            row_id = 1
+            for dte in self.date_range(date(2017, 8, 26)):
+                blank_row_list = [' ' + str(dte), 'Unassociated', 'Unassociated', 0]
+                blank_rows[str(row_id)] = blank_row_list
+                row_id += 1
         else:
             blank_rows = None
         return blank_rows
 
     def extra_row(self, sheet):
         """ Some sheets have data that is not in the database and needs to be
-        added individually outside of the blank rows generated"""
+        added individually """
         if sheet == 'data-site_reg_by_day':
             extra_row = [' 2017-05-05', 15]
         elif sheet == 'data-reg_by_channel':
@@ -182,7 +190,6 @@ class Spreadsheeter():
         return extra_row
 
     def arsenal_v_everton(self, sheet):
-        """ Add these extra-database rows to their respective sheets"""
         if sheet == 'data-site_reg_by_day':
             a_v_e_row = ['Win a Trip to Arsenal v Everton', 10593]
         elif sheet == 'data-reg_by_channel' or sheet == 'data-imp_by_channel':
@@ -194,7 +201,6 @@ class Spreadsheeter():
         return a_v_e_row
 
     def arsenal_v_man(self, sheet):
-        """ Add these extra-database rows to their respective sheets"""
         if sheet == 'data-site_reg_by_day':
             a_v_m_row = ['Win a Trip to Arsenal v Man Utd', 218]
         elif sheet == 'data-reg_by_channel' or sheet == 'data-imp_by_channel':
@@ -206,7 +212,6 @@ class Spreadsheeter():
         return a_v_m_row
 
     def fcb_camp(self, sheet):
-        """ Add these extra-database rows to their respective sheets"""
         if sheet == 'data-site_reg_by_day':
             fcb_row = ['FCB Heilongjiang Camp - Nominate Yourself', 23469]
         elif sheet == 'data-reg_by_channel' or sheet == 'data-imp_by_channel':
@@ -404,5 +409,3 @@ if __name__ == '__main__':
         print "Unknown exception:"
         raise
         sys.exit(1)
-
-
