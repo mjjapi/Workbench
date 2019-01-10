@@ -32,7 +32,7 @@ class LoadTables():
         if password:
             self.cred2 = password
         else:
-            self.cred2 = 'erekose2'
+            self.cred2 = ''
         if user:
             self.cred1 = user
         else:
@@ -199,7 +199,7 @@ class LoadTables():
         """DECLARE"""
         mylog.debug('===========================')
         mylog.debug("Loading SCHEMA %s for table: %s" % (schema, table))
-        declare_sql = "DECLARE " + schema + "_" + table + "_CURSOR cursor DATABASE " + source + " user BATCHUSR USING erekose2 for SELECT * from " + schema + "." + table + " with ur;"
+        declare_sql = "DECLARE " + schema + "_" + table + "_CURSOR cursor DATABASE " + source + " user  USING  for SELECT * from " + schema + "." + table + " with ur;"
         mylog.debug("%s" % declare_sql)
 
         """LOAD"""
